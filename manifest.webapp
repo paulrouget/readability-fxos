@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "name": "Readablity",
+  "description": "Readability client",
+  "launch_path": "/index.html",
+  "icons": {
+    "16": "/icons/mortar-16.png",
+    "48": "/icons/mortar-48.png",
+    "60": "/icons/mortar-60.png",
+    "128": "/icons/mortar-128.png"
+  },
+  "developer": {
+    "name": "Paul Rouget",
+    "url": "http://paulrouget.com"
+  },
+  "type": "privileged",
+  "permissions": {
+    "systemXHR": {
+        "description": "Required to load remote content"
+    }
+  },
+  "redirects": [
+        {"from": "http://paulrouget.com/redirect.html", "to": "/redirect.html"}
+  ]
+}
