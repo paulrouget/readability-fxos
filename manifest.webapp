@@ -4,7 +4,8 @@
   "description": "Readability client",
   "launch_path": "/index.html",
   "icons": {
-    "512": "/icons/512.png"
+    "256": "/icons/256.png",
+    "128": "/icons/128.png"
   },
   "developer": {
     "name": "Paul Rouget",
