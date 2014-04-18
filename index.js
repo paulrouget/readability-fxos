@@ -53,7 +53,7 @@ function checkIfToken() {
       var requestBody = OAuth.formEncode(message.parameters);    
       OAuth.completeRequest(message, readability);
 
-      var authorizationHeader = OAuth.getAuthorizationHeader2("", message.parameters);
+      var authorizationHeader = OAuth.getAuthorizationHeader("", message.parameters);
       var accessToken = new XMLHttpRequest({mozSystem: true});
       accessToken.open(message.method, message.action, true); 
       accessToken.setRequestHeader("Authorization", authorizationHeader);

@@ -301,26 +301,6 @@ OAuth.setProperties(OAuth, // utility functions
         return header;
     }
 ,
-    /** Construct the value of the Authorization header for an HTTP request. */
-    getAuthorizationHeader2: function getAuthorizationHeader2(realm, parameters) {
-        var header = 'OAuth realm="' + OAuth.percentEncode(realm) + '"';
-        var list = OAuth.getParameterList(parameters);
-        var first = false;
-        for (var p = 0; p < list.length; ++p) {
-            var parameter = list[p];
-            var name = parameter[0];
-            if (name.indexOf("oauth_") == 0) {
-              if (first) {
-                first = false;
-                header += OAuth.percentEncode(name) + '=' + OAuth.percentEncode(parameter[1]) + '';
-              } else {
-                header += ',' + OAuth.percentEncode(name) + '=' + OAuth.percentEncode(parameter[1]) + '';
-              }
-            }
-        }
-        return header;
-    }
-,
     /** Correct the time using a parameter from the URL from which the last script was loaded. */
     correctTimestampFromSrc: function correctTimestampFromSrc(parameterName) {
         parameterName = parameterName || "oauth_timestamp";
@@ -387,11 +367,8 @@ OAuth.setProperties(OAuth.SignatureMethod.prototype, // instance members
 {
     /** Add a signature to the message. */
     sign: function sign(message) {
-        console.log("PAUL1", message);
         var baseString = OAuth.SignatureMethod.getBaseString(message);
-        console.log("PAUL2", baseString);
         var signature = this.getSignature(baseString);
-        console.log("PAUL3", signature);
         OAuth.setParameter(message, "oauth_signature", signature);
         return signature; // just in case someone's interested
     }
