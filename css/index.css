@@ -1,0 +1,38 @@
+body {
+  background-color: #212324;
+  color: #DDD;
+  margin: 0;
+}
+
+#bookmarklist {
+  padding: 0;
+  list-style: none;
+}
+
+#bookmarklist > li {
+  border-color: #313131;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  overflow: hidden;
+  padding: 1.1em 1.2em 1.5em;
+}
+
+.domain {
+  font-family: "Sentinel SSm B";
+  font-size: 0.8rem;
+  
+}
+.title {
+  font-family: "Sentinel SSm A";
+  font-weight: bold;
+  font-family: 0.9rem;
+}
+
+.excerpt {
+  font-family: "Sentinel SSm B";
+  font-size: 0.8em;
+  line-height: 1.45;
+  margin-bottom: 1.8em;
+  max-height: 4.1em;
+  overflow: hidden;
+}
