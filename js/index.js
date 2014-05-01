@@ -7,29 +7,41 @@
     return;
   }
 
-  console.log("We are logged in.");
+  console.log("We are logged in.", window.readability);
 
   window.addEventListener("load", function() {
-    buildBookmarksList();
+    buildBookmarksList(false);
   });
 })()
 
-function buildBookmarksList() {
-  rReq("get", "bookmarks", function(json) {
+function buildBookmarksList(forceRefresh) {
+  if (forceRefresh || !("bookmarks" in window.readability)) {
+    rReq("get", "bookmarks", function(json) {
+      window.readability.bookmarks = json.bookmarks;
+      sync();
+      buildBookmarksList(false);
+    }, function(status, error) {
+      if (status == 401) {
+        localStorage.removeItem("readability");
+        window.location.reload();
+        return;
+      }
+      alert(error);
+    }); 
+  } else {
+    var documentFragment = document.createDocumentFragment()
+    for (var b of window.readability.bookmarks) {
+      var li = buildBookmark(b);
+      documentFragment.appendChild(li);
+    }
     var ul = document.querySelector("#bookmarklist");
     ul.innerHTML = "";
-    for (var b of json.bookmarks) {
-      var li = buildBookmark(b);
-      ul.appendChild(li);
-    }
-  }, function(status, error) {
-    if (status == 401) {
-      localStorage.removeItem("readability");
-      window.location.reload();
-      return;
-    }
-    alert(error);
-  });
+    ul.appendChild(documentFragment);
+  }
+}
+
+function sync() {
+  localStorage.readability = JSON.stringify(window.readability);
 }
 
 function buildBookmark(b) {
