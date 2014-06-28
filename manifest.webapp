@@ -1,8 +1,8 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "name": "Readablity",
-  "description": "Readability client",
-  "launch_path": "/index.html",
+  "description": "Readability Client",
+  "launch_path": "/mainUI/ui.html",
   "icons": {
     "256": "/icons/256.png",
     "128": "/icons/128.png"
@@ -18,6 +18,6 @@
     }
   },
   "redirects": [
-        {"from": "http://paulrouget.com/redirect.html", "to": "/redirect.html"}
+        {"from": "http://paulrouget.com/redirect.html", "to": "/connect/oauth_redirect.html"}
   ]
 }

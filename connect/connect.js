@@ -1,8 +1,3 @@
-window.onload = function() {
-  var loginButton = document.querySelector("#loginButton");
-  loginButton.addEventListener("click", getToken);
-}
-
 var BASE_URL = "https://www.readability.com/api/rest/v1/";
 var KEY = "paulrouget";
 var SECRET = "LUmTRhdaApJdpcyYQFKfHgzpdSx4dvDr";
@@ -17,7 +12,16 @@ var readability = {
     userAuthorizationURL: BASE_URL + "oauth/authorize/",
     accessTokenURL      : BASE_URL + "oauth/access_token/"
   }
-};
+}
+
+window.onload = function() {
+  localforage.setDriver("IndexedDB").then(function() {
+    localforage.clear(function() {
+      var loginButton = document.querySelector("#loginButton");
+      loginButton.addEventListener("click", getToken);
+    });
+  });
+}
 
 function getToken() {
 
@@ -29,9 +33,9 @@ function getToken() {
     parameters: [["oauth_signature_method", "PLAINTEXT"]],
   };
 
-  var requestBody = OAuth.formEncode(message.parameters);    
-  OAuth.completeRequest(message, readability);
-  var authorizationHeader = OAuth.getAuthorizationHeader("", message.parameters);
+  var requestBody = gNetwork.OAuth.formEncode(message.parameters);
+  gNetwork.OAuth.completeRequest(message, readability);
+  var authorizationHeader = gNetwork.OAuth.getAuthorizationHeader("", message.parameters);
   var xhr1 = new XMLHttpRequest({mozSystem: true});
   xhr1.open(message.method, message.action, true); 
   xhr1.setRequestHeader("Authorization", authorizationHeader);
@@ -41,9 +45,9 @@ function getToken() {
   // Step 2: get secret token, open connection screen from readability.com
 
   xhr1.addEventListener("load", function () {
-    var results = OAuth.decodeForm(xhr1.responseText);
-    var token = OAuth.getParameter(results, "oauth_token");
-    readability.tokenSecret = OAuth.getParameter(results, "oauth_token_secret");
+    var results = gNetwork.OAuth.decodeForm(xhr1.responseText);
+    var token = gNetwork.OAuth.getParameter(results, "oauth_token");
+    readability.tokenSecret = gNetwork.OAuth.getParameter(results, "oauth_token_secret");
     var redirect = encodeURIComponent(REDIRECT);
     var nextURL = readability.serviceProvider.userAuthorizationURL + "?oauth_token=" + token + "&oauth_callback=" + redirect;
     window.addEventListener("message", onMessageFromDialog, true);
@@ -57,7 +61,6 @@ function getToken() {
   // Step 3: access token
 
   function onMessageFromDialog(event) {
-      console.log("onMessage", event.data);
       window.removeEventListener("message", onMessageFromDialog, true);
       var data = event.data;
       if (!data.oauth_callback_confirmed) {
@@ -74,10 +77,10 @@ function getToken() {
       readability.token = data.oauth_token;
       readability.verifier = data.oauth_verifier;
 
-      var requestBody = OAuth.formEncode(message.parameters);
-      OAuth.completeRequest(message, readability);
+      var requestBody = gNetwork.OAuth.formEncode(message.parameters);
+      gNetwork.OAuth.completeRequest(message, readability);
 
-      var authorizationHeader = OAuth.getAuthorizationHeader("", message.parameters);
+      var authorizationHeader = gNetwork.OAuth.getAuthorizationHeader("", message.parameters);
       var xhr2 = new XMLHttpRequest({mozSystem: true});
       xhr2.open(message.method, message.action, true); 
       xhr2.setRequestHeader("Authorization", authorizationHeader);
@@ -85,8 +88,6 @@ function getToken() {
       xhr2.send(requestBody);
 
       xhr2.addEventListener("load", function() {
-        console.log(xhr2.responseText);
-        console.log(readability);
         var pairs = xhr2.responseText.split("&");
         var res = {};
         for (var pair of pairs) {
@@ -96,9 +97,9 @@ function getToken() {
         readability.tokenSecret = res.oauth_token_secret;
         readability.token = res.oauth_token;
         // Finally...
-        localStorage.readability = JSON.stringify(readability);
-        console.log("Registered");
-        document.location = "index.html";
+        localforage.setItem("readability", readability, function() {
+          document.location = "/mainUI/ui.html";
+        });
       });
 
       xhr2.addEventListener("error", function() {
