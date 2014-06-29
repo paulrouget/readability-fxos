@@ -1,23 +1,43 @@
 {
   "version": "0.2",
-  "name": "Readablity",
-  "description": "Readability Client",
-  "launch_path": "/mainUI/ui.html",
-  "icons": {
-    "256": "/icons/256.png",
-    "128": "/icons/128.png"
-  },
-  "developer": {
-    "name": "Paul Rouget",
-    "url": "http://paulrouget.com"
-  },
-  "type": "privileged",
-  "permissions": {
-    "systemXHR": {
+    "name": "Readablity",
+    "description": "Readability Client",
+    "launch_path": "/html/home.html",
+    "icons": {
+      "256": "/icons/256.png",
+      "128": "/icons/128.png"
+    },
+    "developer": {
+      "name": "Paul Rouget",
+      "url": "http://paulrouget.com"
+    },
+    "type": "privileged",
+    "permissions": {
+      "systemXHR": {
         "description": "Required to load remote content"
-    }
-  },
-  "redirects": [
-        {"from": "http://paulrouget.com/redirect.html", "to": "/connect/oauth_redirect.html"}
+      }
+    },
+    "activities": {
+      "share": {
+        "href": "/html/import.html",
+        "filters": {
+          "type": ["url"]
+        },
+        "disposition": "inline",
+        "returnValue": true
+      },
+      "view": {
+        "href": "/html/import.html",
+        "filters": {
+          "type": "url",
+          "required":true, "pattern":"https?:.{1,16384}", "patternFlags":"i",
+          "disposition": "inline",
+          "returnValue": true
+        }
+      }
+    },
+    "redirects": [
+    {"from": "http://paulrouget.com/redirect.html", "to": "/oauth_redirect/oauth_redirect.html"}
   ]
 }
+

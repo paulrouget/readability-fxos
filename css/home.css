@@ -1,0 +1,54 @@
+body {
+  background-color: #990000;
+  color: white;
+  margin: 40px;
+}
+
+body > .view {
+  display: none;
+}
+
+body[view="connected"] > .view.connected,
+body[view="disconnected"] > .view.disconnected {
+  display: block;
+}
+
+.avatar {
+  display: block;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.connected > ul {
+  list-style: none;
+  padding: 0;
+}
+
+.connected > ul > li a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 300%;
+}
+
+.readinglist {
+  font-size: 2rem;
+  border-bottom: 1px solid #FFF;
+}
+
+.connect {
+  margin-top: 100px;
+  background-color: #FDFDFD;
+  color: #900;
+  border: 1px solid #900;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1.8em;
+  font-weight: 600;
+  padding: 0.4em 0.5em 0.5em;
+}
+
+.view.disconnected {
+  text-align: center;
+}
