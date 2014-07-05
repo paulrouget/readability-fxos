@@ -46,9 +46,7 @@ function ShowDisconnectedView() {
 }
 
 function OnConnectButtonClicked() {
-  console.log(1);
   ww.getAuthorizationURL().then(url => {
-    console.log(2);
     function onMessageFromDialog(e) {
       var data = e.data;
       ww.onUserAuthorized(data).then(() => {
