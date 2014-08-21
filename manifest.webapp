@@ -27,12 +27,16 @@
         "returnValue": true
       },
       "view": {
+        "disposition": "inline",
+        "returnValue": true,
         "href": "/html/import.html",
         "filters": {
           "type": "url",
-          "required":true, "pattern":"https?:.{1,16384}", "patternFlags":"i",
-          "disposition": "inline",
-          "returnValue": true
+          "url": {
+            "required":true,
+            "pattern":"https?:.{1,16384}",
+            "patternFlags":"i"
+          }
         }
       }
     },
